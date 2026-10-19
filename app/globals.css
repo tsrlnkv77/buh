@@ -1,0 +1,143 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-manrope), -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: var(--font-unbounded), var(--font-manrope), sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, monospace;
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-warning: var(--warning);
+  --color-sun: var(--sun);
+  --color-sun-foreground: var(--sun-foreground);
+  --color-sky: var(--sky);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --shadow-soft: 0 1px 2px rgb(14 42 59 / 0.04), 0 8px 24px -12px rgb(14 42 59 / 0.12);
+  --shadow-float: 0 12px 32px -12px rgb(11 140 196 / 0.35), 0 2px 6px rgb(14 42 59 / 0.06);
+}
+
+/*
+  Светлая палитра «казахстанское небо»: лазурь флага + солнечное золото.
+  Приложение всегда светлое, независимо от темы Telegram.
+*/
+:root {
+  color-scheme: light;
+  --radius: 0.875rem;
+
+  --background: #f2f7fa;
+  --foreground: #0e2a3b;
+  --card: #ffffff;
+  --card-foreground: #0e2a3b;
+  --popover: #ffffff;
+  --popover-foreground: #0e2a3b;
+
+  --primary: #0b8cc4;
+  --primary-foreground: #ffffff;
+  --sky: #e3f3fa;
+
+  --sun: #f6b928;
+  --sun-foreground: #3d2a00;
+
+  --secondary: #e3f3fa;
+  --secondary-foreground: #0b6e9a;
+  --muted: #eef3f6;
+  --muted-foreground: #5f7584;
+  --accent: #e3f3fa;
+  --accent-foreground: #0b6e9a;
+
+  --destructive: #e0463c;
+  --warning: #b77800;
+  --border: #e1e9ee;
+  --input: #e1e9ee;
+  --ring: #0b8cc4;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    overscroll-behavior-y: none;
+  }
+}
+
+/* Staggered entrance; restarts every time a tab becomes visible again (display:none -> block). */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(2deg);
+  }
+}
+
+@layer utilities {
+  .stagger > * {
+    animation: rise-in 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  .stagger > *:nth-child(1) { animation-delay: 0ms; }
+  .stagger > *:nth-child(2) { animation-delay: 70ms; }
+  .stagger > *:nth-child(3) { animation-delay: 140ms; }
+  .stagger > *:nth-child(4) { animation-delay: 210ms; }
+  .stagger > *:nth-child(5) { animation-delay: 280ms; }
+  .stagger > *:nth-child(6) { animation-delay: 350ms; }
+  .stagger > *:nth-child(n + 7) { animation-delay: 420ms; }
+
+  .animate-float {
+    animation: float-y 5s ease-in-out infinite;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stagger > *,
+  .animate-float {
+    animation: none;
+  }
+}
